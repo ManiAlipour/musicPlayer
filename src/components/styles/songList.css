@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic&display=swap');
+
+.song-list{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-shadow: 2px 2px 50px rgb(204, 204, 204);
+    background-color: rgb(228, 226, 226);
+    overflow: scroll;
+    transition:all .2s ease;
+}
+
+.song-list-items{
+    display: flex;
+    /* flex-direction: column; */
+    cursor: pointer;
+    padding: 0 1vw;
+    transition: all .3s;
+    border-radius: 5px;
+}
+.song-list-items img{
+    width:40%;
+    margin: 2vh 0;
+    border-radius: 10px;
+}
+
+.song-description{
+    margin-right: 2vw;
+    font-family: 'Noto Sans Arabic', sans-serif !important;
+}
+
+.song-list-items:hover{
+    background-color: rgb(200, 200, 200);
+}
+
+*{
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+}
+
+*::-webkit-scrollbar{
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb{
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 20px;
+    border: transparent;
+}
+
+.selected{
+    background-color: rgb(177, 166, 166);
+}
+.displaying{
+    transform: translateX(-20vw);
+}
+
+.song-list .song-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 18px;
+    margin-bottom: 1vh;
+}
+.song-list .song-header .close-list {
+    color: red;
+    padding: 5px;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid red;
+    transition: all .3s linear;
+
+}
+.song-list .song-header .close-list:hover{
+    background-color: red;
+    color: white;
+}
+
+body{
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .song-list{
+        width: 100vw;
+    }
+    .displaying{
+        transform: translateX(-100vw);
+    }
+    .song-list-items{
+        align-items: center;
+    }
+    .song-list-items img{
+        width: 30%;
+    }
+}

@@ -1,0 +1,28 @@
+nav{
+    min-height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* margin-bottom: 1vh; */
+} 
+nav button{
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+nav button:hover{
+    background-color: #555;
+    color:white;
+}
+
+
+

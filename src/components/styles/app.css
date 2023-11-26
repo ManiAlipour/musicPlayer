@@ -1,0 +1,14 @@
+
+@import "./_player.css";
+@import "./_song.css";
+@import "./songList.css";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic&display=swap');
+@import "./showList.css";
+
+
+*{
+    font-family: 'Noto Sans Arabic', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

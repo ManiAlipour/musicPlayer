@@ -1,9 +1,18 @@
-const Song = ({ currentSong, animationSong }) => {
+import { useContext } from "react";
+import { MusicContext } from "../context/music-context";
+
+const Song = () => {
+  const mc = useContext(MusicContext);
   return (
     <div className="song-container">
-      <span className="song-name">{currentSong.name}</span>
-      <img loading="lazy" className={`song-cover ${animationSong?"animationSong":""}`} src={currentSong.cover} alt="" />
-      <h3 className="song-artist">{currentSong.artist}</h3>
+      <span className="song-name">{mc.currentSong.name}</span>
+      <img
+        loading="lazy"
+        className={`song-cover ${mc.animationSong ? "animationSong" : ""}`}
+        src={mc.currentSong.cover}
+        alt=""
+      />
+      <h3 className="song-artist">{mc.currentSong.artist}</h3>
     </div>
   );
 };

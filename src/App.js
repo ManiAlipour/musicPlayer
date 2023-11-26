@@ -1,12 +1,11 @@
 import { useState } from "react";
 import Player from "./components/player";
-
+import { MusicContext } from "./context/music-context";
 import Song from "./components/song";
 import musicData from "./components/data";
 import SongList from "./components/songList";
 import ShowList from "./components/showList";
-import 'bootstrap-icons/font/bootstrap-icons.css'
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
   const [songs, setSongs] = useState(musicData());
@@ -16,30 +15,25 @@ function App() {
   const [isPlayed, setIsPlayed] = useState(false);
   return (
     <>
-      <ShowList displayList={displayList} setDisplayList={setDisplayList} />
-      <Song animationSong={animationSong} currentSong={currentSong} />
-      <Player
-        songs={songs}
-        setCurrentSong={setCurrentSong}
-        currentSong={currentSong}
-        setAnimationSong={setAnimationSong}
-        setSongs={setSongs}
-        setIsPlayed={setIsPlayed}
-        isPlayed={isPlayed}
-      />
-      <SongList
-        songs={songs}
-        setCurrentSong={setCurrentSong}
-        setSongs={setSongs}
-        displayList={displayList}
-        setDisplayList={setDisplayList}
-        setAnimationSong={setAnimationSong}
-        isPlayed={isPlayed}
-        setIsPlayed={setIsPlayed}
-
-
-    
-      />
+      <MusicContext.Provider
+        value={{
+          songs,
+          currentSong,
+          setCurrentSong,
+          setSongs,
+          displayList,
+          setDisplayList,
+          animationSong,
+          setAnimationSong,
+          isPlayed,
+          setIsPlayed,
+        }}
+      >
+        <ShowList />
+        <Song />
+        <Player />
+        <SongList />
+      </MusicContext.Provider>
     </>
   );
 }

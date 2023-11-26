@@ -1,6 +1,9 @@
 import { FaList, FaMusic } from "react-icons/fa";
+import { useContext } from "react";
+import { MusicContext } from "../context/music-context";
 
-const ShowList = ({ displayList, setDisplayList }) => {
+const ShowList = () => {
+  const mc = useContext(MusicContext);
   return (
     <nav>
       <h3
@@ -14,7 +17,9 @@ const ShowList = ({ displayList, setDisplayList }) => {
         Mani MusicPlayer
         <FaMusic color="red" />
       </h3>
-      <button onClick={() => setDisplayList(!displayList)}>
+      <button
+        onClick={() => mc.setDisplayList(!mc.displayList)}
+      >
         <span>Song List </span>
         <FaList />
       </button>

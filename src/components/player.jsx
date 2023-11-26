@@ -4,27 +4,24 @@ import {
   FaPause,
   FaPlay,
 } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { MusicContext } from "../context/music-context";
 
-const Player = ({
-  currentSong,
-  setAnimationSong,
-  setCurrentSong,
-  songs,
-  setSongs,
-  setIsPlayed,
-  isPlayed,
-}) => {
+const Player = () => {
+  //using context
+  const mc = useContext(MusicContext)
+  // changing active song
   useEffect(() => {
-    const newSongs = songs.map((s) => {
-      if (s.id === currentSong.id) {
+    const newSongs = mc.songs.map((s) => {
+      if (s.id === mc.currentSong.id) {
         return { ...s, covered: true };
       } else {
         return { ...s, covered: false };
       }
     });
-    setSongs(newSongs);
-  }, [currentSong]);
+    // setting active song
+    mc.setSongs(newSongs);
+  }, [mc.currentSong]);
 
   const seekBarRef = useRef(null);
   const audioRef = useRef(null);
@@ -34,19 +31,27 @@ const Player = ({
     animationPercentage: 0,
   });
 
+  // playing music in skip or backwards
+  useEffect(()=>{
+    mc.setAnimationSong(false)
+    mc.setIsPlayed(false)
+    setTimeout(()=>{
+      audioRef.current.play()
+      mc.setAnimationSong(true)
+      mc.setIsPlayed(true)
+    } , 3000)
+  },[mc.currentSong])
+
+
   const musicHandler = (e) => {
     const { currentTime } = e.target;
     const { duration } = e.target;
     if (currentTime === duration) {
-      const musucIndex = songs.findIndex((s) => s.id === currentSong.id);
-      if (musucIndex === songs.length - 1) {
-        setCurrentSong(songs[0]);
-        setAnimationSong(false);
-        setIsPlayed(!isPlayed);
+      const musucIndex = mc.songs.findIndex((s) => s.id === mc.currentSong.id);
+      if (musucIndex === mc.songs.length - 1) {
+        mc.setCurrentSong(mc.songs[0]);
       } else {
-        setCurrentSong(songs[musucIndex + 1]);
-        setAnimationSong(false);
-        setIsPlayed(!isPlayed);
+        mc.setCurrentSong(mc.songs[musucIndex + 1]);
       }
     }
     // calculate percentage
@@ -58,42 +63,37 @@ const Player = ({
     setSongInfo({ ...songInfo, currentTime, duration, animationPercentage });
   };
 
+  // handle skip or backwards music
   const musicSkip = (dir) => {
-    const musucIndex = songs.findIndex((s) => s.id === currentSong.id);
+    const musucIndex = mc.songs.findIndex((s) => s.id === mc.currentSong.id);
     if (dir === "skip") {
-      if (musucIndex === songs.length - 1) {
-        setCurrentSong(songs[0]);
-        setIsPlayed(!isPlayed);
-        setAnimationSong(false);
+      if (musucIndex === mc.songs.length - 1) {
+        mc.setCurrentSong(mc.songs[0]);
       } else {
-        setCurrentSong(songs[musucIndex + 1]);
-        setAnimationSong(false);
-        setIsPlayed(!isPlayed);
+        mc.setCurrentSong(mc.songs[musucIndex + 1]);
       }
     } else if (dir === "back") {
       if (musucIndex === 0) {
-        setCurrentSong(songs[songs.length - 1]);
-        setIsPlayed(!isPlayed);
-        setAnimationSong(false);
+        mc.setCurrentSong(mc.songs[mc.songs.length - 1]);
       } else {
-        setCurrentSong(songs[musucIndex - 1]);
-        setIsPlayed(!isPlayed);
-        setAnimationSong(false);
+        mc.setCurrentSong(mc.songs[musucIndex - 1]);
       }
     }
   };
-
+  // format the current and duration song
   const timeFormat = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
   };
+  // drage the current song handler
   const dragHandler = (e) => {
     const { value } = e.target;
     setSongInfo({ ...songInfo, currentTime: value });
     audioRef.current.currentTime = value;
   };
 
+  // style with timebar
   const animationTrack = {
     transform: `translateX(${songInfo.animationPercentage}%)`,
   };
@@ -103,7 +103,6 @@ const Player = ({
       <div className="player">
         <div className="time-controll">
           <span>{timeFormat(songInfo.currentTime) || "00:00"}</span>
-
           <div className="track">
             <input
               type="range"
@@ -123,13 +122,13 @@ const Player = ({
             color="#333"
             size={30}
           />
-          {isPlayed ? (
+          {mc.isPlayed ? (
             <FaPause
               color="#333"
               onClick={() => {
                 audioRef.current.pause();
-                setIsPlayed(false);
-                setAnimationSong(false);
+                mc.setIsPlayed(false);
+                mc.setAnimationSong(false);
               }}
               size={30}
             />
@@ -138,8 +137,8 @@ const Player = ({
               color="#333"
               onClick={() => {
                 audioRef.current.play();
-                setIsPlayed(true);
-                setAnimationSong(true);
+                mc.setIsPlayed(true);
+                mc.setAnimationSong(true);
               }}
               size={30}
             />
@@ -159,7 +158,7 @@ const Player = ({
           musicHandler(e);
         }}
         ref={audioRef}
-        src={currentSong.audio}
+        src={mc.currentSong.audio}
       ></audio>
     </>
   );

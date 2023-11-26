@@ -1,27 +1,24 @@
-const SongItem = ({
-  song,
-  setCurrentSong,
-  songs,
-  setSongs,
-  setAnimationSong,
-  isPlayed,
-  setIsPlayed,
+import { useContext } from "react";
+import { MusicContext } from "../context/music-context";
 
-}) => {
+const SongItem = ({song}) => {
+  // using context
+  const mc = useContext(MusicContext)
+  // find active song and set in current song
   const handleMusic = (e) => {
-    const selectedSong = songs.filter((s) => s.id === song.id);
-    setCurrentSong(selectedSong[0]);
-
-    const newSongs = songs.map((s) => {
+    const selectedSong = mc.songs.filter((s) => s.id === song.id);
+    mc.setCurrentSong(selectedSong[0]);
+    
+    const newSongs = mc.songs.map((s) => {
       if (s.id === song.id) {
         return { ...s, covered: true };
       } else {
         return { ...s, covered: false };
       }
     });
-    setIsPlayed(false)
-    setAnimationSong(false)
-    setSongs(newSongs);
+    mc.setIsPlayed(false)
+    mc.setAnimationSong(false)
+    mc.setSongs(newSongs);
   };
   return (
     <div

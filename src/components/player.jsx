@@ -33,6 +33,10 @@ const Player = () => {
 
   // playing music in skip or backwards
   useEffect(()=>{
+  if(mc.currentSong === mc.songs[0]){
+    mc.setIsPlayed(false)
+    mc.setAnimationSong(false)
+  }else{
     mc.setAnimationSong(false)
     mc.setIsPlayed(false)
     setTimeout(()=>{
@@ -40,6 +44,7 @@ const Player = () => {
       mc.setAnimationSong(true)
       mc.setIsPlayed(true)
     } , 3000)
+  }   
   },[mc.currentSong])
 
 
